@@ -1,4 +1,4 @@
-#!/home/kos/git/projects/docs/flask/bin/python
+#!/home/kos/projects/docs/flask/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
