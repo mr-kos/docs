@@ -2,78 +2,74 @@
 
 {% block content %}
     <header class="p-3 bg-dark text-white">
-        <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <div class="text-start">
-                <strong> DOCS </strong>
-            </div>
-
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 text-white">Главная</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">Обработанные статьи</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">Избранное</a></li>
-            <li><a href="#" class="nav-link px-2 text-white">О программе</a></li>
-            </ul>
-
-            <div class="text-end">
-            <button type="button" class="btn btn-outline-light me-2">Вход</button>
-            <button type="button" class="btn btn-warning">Регистрация</button>
-            </div>
+      <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+        <div class="text-start">
+            <strong> DOCS </strong>
         </div>
-        </div>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/index" class="nav-link px-2 text-white">Главная</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">Обработанные статьи</a></li>
+        <li><a href="/fav" class="nav-link px-2 text-white">Избранное</a></li>
+        <li><a href="#" class="nav-link px-2 text-white">О программе</a></li>
+        </ul>
+      </div>
+      </div>
     </header>
 
     <div class="album py-5 bg-light">
         <div class="container">
-    
+          {% if art %}
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for item in art %}
             <div class="col">
               <div class="card shadow-sm">
-                <div class="card-body">
-                  <p class="card-text">
-                    Gazprom is ramping up capital expenditure plans in 2018 and 2019, in order to achive its targets of diversifyning sales to China and circumventing pipeline transit via Ukraine. This involves the construction or completion of three major pipelines that will connect Russia directly with its largest demand markets. Power of Siberia (to China), TurkStream (to Turkey) and Nord Stream II (to Germany).
-                  </p>
+                <div class="card-body">                  
+                  <small class="text-muted"> {{ item.text_class }} </small>
+                  <p class="card-text"> {{ item.abstr }} </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Читать полностью</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в избранное</button>
+                      <button type="button" id="{{ item.art_id }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#Modal-{{ item.art_id }}">Читать полностью</button>
+                      <!-- Modal -->
+                      <div class="modal fade" id="Modal-{{ item.art_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Полная версия</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                            </div>
+                            <div class="modal-body">
+                              {{ item.text }}
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                              <button type="button" class="btn btn-primary">Добавить в избранное</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <button type="button" id="{{ item.art_id }}" class="btn btn-sm btn-outline-secondary fav-{{ item.fav }}" onclick="toggleFav(this)">
+                        {% if item.fav == 0 %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
+                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                          <path d="M8 4a.5.5 0 0 1 .5.5V6H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V7H6a.5.5 0 0 1 0-1h1.5V4.5A.5.5 0 0 1 8 4z"/>
+                        </svg>
+                        {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-check-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                        </svg>
+                        {% endif %}
+                      </button>
                     </div>
-                    <small class="text-muted">9 mins</small>
+                    <small class="text-muted">{{ item.time }}</small>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col">
-                <div class="card shadow-sm">
-                  <div class="card-body">
-                    <p class="card-text">
-                        Nord Stream II remains the outlier. While it appears spending on the subsea pipeline is increasing in rouble terms, according to our exchange rate estimates for 2017 and forecasts for 2018, the amount is largely flat y-o-y 2018 spending will reportedly increase from USD1.76bn to USD1.88bn. Additionally, it is unclear where or how much of the 2017 USD1.76 budget for the subsea sections of the pipeline has been spent, with much of the physical pipeline already having been purchased. It may be that this budget has largely been shifted into 2018, in preparation for a go ahead of the pipeline if financing and approvals are achived.                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Читать полностью</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в избранное</button>
-                      </div>
-                      <small class="text-muted">9 mins</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card shadow-sm">
-                  <div class="card-body">
-                    <p class="card-text">
-                        2018 and 2019 will be critical years for Russia´s gas expansion ambitions, particularly with regard to the Nord Stream II pipeline. Pipe lay progress with the China link and Turkstream pipelines is moving ahead as planned, with the focus of capital moving gradually towards ensuring supply and takeaway capacity. Gazprom is increasing expenditure of the Chayandiskoe fields by more than 60% in 2018, in preparation for filling the pipeline and delivering gas to China from December 2019. Similarly, foundations have been put down for the Amur gas processing plant, which will deliver Russian gas into China. Investment into onshore transit links in Turkey is also planned in the 2018 budget, indicating the Turkstream pipeline could be linked in to the Turkish system by the end of 2018, and before the Trans-Anatolian pipeline (TANAP) from Azerbaijan is operational.                    </p>
-                    <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Читать полностью</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Добавить в избранное</button>
-                      </div>
-                      <small class="text-muted">9 mins</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            {% endfor %}
           </div>
+          {% endif %}
         </div>
       </div>
 
