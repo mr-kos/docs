@@ -1,10 +1,24 @@
+/* Против фокуса на кнопках Bootstrap */
+a.focus,
 a.active.focus,
 a.active:focus,
-a.focus,
-/* Против фокуса на кнопках Bootstrap */
 a:active.focus,
 a:active:focus,
 a:focus,
+label.focus,
+label.active.focus,
+label.active:focus,
+label.focus,
+label:active.focus,
+label:active:focus,
+label:focus,
+input.focus,
+input.active.focus,
+input.active:focus,
+input.focus,
+input:active.focus,
+input:active:focus,
+input:focus,
 button.active.focus,
 button.active:focus,
 button.focus,
@@ -24,6 +38,11 @@ outline-style: none!important;
 box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
 }
 
+.filt-btn{
+  width: 100%;
+}
+
+
 
 /* HEADER */
 header{
@@ -33,7 +52,7 @@ header{
   color: #f8f9fa;
 }
 .nav-link:hover{
-  color: #dee2e6;
+  color: #adb5bd;
 }
 .nav-link.active{
   color: #212529;

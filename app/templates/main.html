@@ -1,45 +1,76 @@
 {% extends "layouts.html" %}
 
 {% block content %}
-    <header class="d-flex justify-content-between align-items-stretch align-content-stretch bg-dark">
+    <header class="d-flex sticky-top justify-content-between align-items-stretch align-content-stretch bg-dark">
       <!-- <div class="container"> -->
       <!-- <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> -->
         <!-- <div class="text-start">
             <strong> DOCS </strong>
         </div> -->
       <div class="container">
-        <ul class="nav nav-justified justify-content-center">
-          <li class="nav-item">
-            <a id="index-link" class="nav-link {{active_link.index}}" href="/index">Статьи</a>
-          </li>
-          <li class="nav-item">
-            <a id="fav-link" class="nav-link {{active_link.fav}}" href="/fav">Избранное</a>
-          </li>
-          <li class="nav-item">
-            <a id="source-link" class="nav-link" href="#">Источники</a>
-          </li>
-          <li class="nav-item">
-            <a id="about-link" class="nav-link" href="#">О программе</a>
-          </li>
-        </ul>
+        <div class="row">
+          <ul class="nav nav-justified justify-content-center">
+            <li class="nav-item">
+              <a id="index-link" class="nav-link rounded-top {{active_link.index}}" href="/index">Статьи</a>
+            </li>
+            <li class="nav-item">
+              <a id="fav-link" class="nav-link rounded-top {{active_link.fav}}" href="/fav">Избранное</a>
+            </li>
+            <li class="nav-item">
+              <a id="source-link" class="nav-link rounded-top" href="#">Источники</a>
+            </li>
+            <li class="nav-item">
+              <a id="about-link" class="nav-link rounded-top" href="#">О программе</a>
+            </li>
+          </ul>
+        </div>
       </div>
-        <!-- <nav class="navbar navbar-expand-lg sticky-top">
-          <div class="container-fluid">
-        col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 -->
-        <!-- px-2 text-white
-          <a class="navbar-brand" href="/index" class="nav-link active">Статьи</a>
-          <a class="navbar-brand" href="/fav" class="nav-link">Избранное</a>
-          <a class="navbar-brand" href="#" class="nav-link">Источники</a>
-          <a class="navbar-brand" href="#" class="nav-link">О программе</a>
-          </div>
-        </nav>
-      </div> -->
     </header>
-
-    <div class="album py-5 bg-light">
+    <!-- Filters -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFilt" aria-labelledby="offcanvasLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasLabel">Фильтры</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="switches">
+          <p>Категории</p>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics">
+            <label class="form-check-label" for="switchPolitics">Политика</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics">
+            <label class="form-check-label" for="switchEconomics">Экономика</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchScience">
+            <label class="form-check-label" for="switchScience">Наука</label>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy">
+            <label class="form-check-label" for="switchStrategy">ВС</label>
+          </div>
+          <div class="my-3">
+            <button type="button" class="btn btn-outline-success btn-sm">Применить</button>
+            <button type="button" class="btn btn-outline-dark btn-sm">Сбросить</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Filters -->
+    <div class="album py-2 bg-light">
         <div class="container">
+          <div class="row row-cols-6 py-2 justify-content-center">
+            <div class="col">
+              <button type="button" class="btn btn-outline-dark filt-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilt" aria-controls="offcanvasExample">Фильтры</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-outline-dark filt-btn">Сбросить фильтры</button>
+            </div>
+          </div>
           {% if art %}
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div class="row">
             {% for item in art %}
             <div id ="{{ item.id }}" class="col">
               <div class="card shadow-sm">
