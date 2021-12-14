@@ -1,7 +1,6 @@
 from app import my_app
 from .article import Article
 from flask_pymongo import PyMongo
-from bson import ObjectId
 
 
 my_app.config["MONGO_URI"] = "mongodb://localhost:27017/docs"
@@ -26,63 +25,47 @@ db_operations = mongo.db.articles
 #     result = {'result' : 'Created successfully'}
 #     return result
 
-
-def read_all():
-    if db_operations.count != 0:
-        articles = db_operations.find()
-        output = [{'art_id': article['_id'], 
-                'abstr' : article['abstr'], 
-                'text_class' : article['text_class'], 
-                'text' : article['text'], 
-                'time': article['time'], 
-                'fav': article['fav']} for article in articles]
-        return output
-    else:
-        return "No articles"
-
-def read(only_fav=False):
+def get_all_articles(fav_mode=2):
+    # fav_mode
+    # 0 - only unfavourite
+    # 1 - only favourite
+    # 2 - all
     if db_operations.count != 0:
         results = []
-        if only_fav:
-            filt = {'fav': 1}
-            results = db_operations.find(filt)
-        else:
+        if fav_mode == 2:
             results = db_operations.find()
-        output = [Article(item['_id'], item['abstr'], item['text'], item['text_class'], item['time'], item['fav']) for item in results]
+        else:
+            filt = {'fav': fav_mode}
+            results = db_operations.find(filt)
+        output = [parse_article(item) for item in results]
         return output
     else:
         return []
 
-# DEPRECATED
-# def read_all():
-#     if db_operations.count != 0:
-#         articles = db_operations.find()
-#         output = [{'art_id': article['_id'], 
-#                 'abstr' : article['abstr'], 
-#                 'text_class' : article['text_class'], 
-#                 'text' : article['text'], 
-#                 'time': article['time'], 
-#                 'fav': article['fav']} for article in articles]
-#         return output
-#     else:
-#         return "No articles"
+def parse_article(dict):
+    article = Article(dict['_id'], dict['abstr'], dict['text'], dict['text_class'], dict['time'], fav=dict['fav'])
+    return article
 
-# DEPRECATED
-# def get_fav():
-#     if db_operations.count != 0:
-#         filt = {'fav': 1}
-#         articles = db_operations.find(filt)
-#         output = [{'abstr' : article['abstr'], 'text_class' : article['text_class'], 
-#                     'text' : article['text'], 'time': article['time'], 'fav': article['fav']} 
-#                 for article in articles]
-#         return output
-#     else:
-#         return "No articles"
+def get_article(filt):
+    if db_operations.count != 0:
+        result = db_operations.find_one(filt)
+        return parse_article(result)
+
+def update_db(article):
+    filt = {'_id' : article.id}
+    updated_art = {
+        "$set": {'fav' : article.fav}
+        }
+    db_operations.update_one(filt, updated_art, upsert=False)
+    return 0
 
 
 def update_fav(art_id, new_fav):
-    updated_art = {"$set": {'fav' : int(new_fav)}}
-    filt = {'_id' : ObjectId(art_id)}
-    db_operations.update_one(filt, updated_art, upsert=False)
-    print("Updated!")
-    return 0
+    filt = {'_id' : art_id}
+    article = get_article(filt)
+    article.fav = new_fav
+    res = update_db(article)
+    if res == 0:
+        return 'Success'
+    else:
+        return 'Fail'

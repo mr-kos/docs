@@ -24,6 +24,27 @@ outline-style: none!important;
 box-shadow: 0 0 0 0 rgba(0,123,255,0)!important;
 }
 
+
+/* HEADER */
+header{
+  padding: 1rem 1rem 0rem 1rem;
+}
+.nav-link{
+  color: #f8f9fa;
+}
+.nav-link:hover{
+  color: #dee2e6;
+}
+.nav-link.active{
+  color: #212529;
+  background-color: #f8f9fa;
+}
+/* Article card */
+/* .card-header-text{
+  display: flex;
+  justify-content: space-between;
+} */
+
 /* .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;

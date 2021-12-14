@@ -1,21 +1,39 @@
 {% extends "layouts.html" %}
 
 {% block content %}
-    <header class="p-3 bg-dark text-white">
-      <div class="container">
-      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-        <div class="text-start">
+    <header class="d-flex justify-content-between align-items-stretch align-content-stretch bg-dark">
+      <!-- <div class="container"> -->
+      <!-- <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> -->
+        <!-- <div class="text-start">
             <strong> DOCS </strong>
-        </div>
-
-        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="/index" class="nav-link px-2 text-white">Главная</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Обработанные статьи</a></li>
-        <li><a href="/fav" class="nav-link px-2 text-white">Избранное</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">О программе</a></li>
+        </div> -->
+      <div class="container">
+        <ul class="nav nav-justified justify-content-center">
+          <li class="nav-item">
+            <a id="index-link" class="nav-link {{active_link.index}}" href="/index">Статьи</a>
+          </li>
+          <li class="nav-item">
+            <a id="fav-link" class="nav-link {{active_link.fav}}" href="/fav">Избранное</a>
+          </li>
+          <li class="nav-item">
+            <a id="source-link" class="nav-link" href="#">Источники</a>
+          </li>
+          <li class="nav-item">
+            <a id="about-link" class="nav-link" href="#">О программе</a>
+          </li>
         </ul>
       </div>
-      </div>
+        <!-- <nav class="navbar navbar-expand-lg sticky-top">
+          <div class="container-fluid">
+        col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 -->
+        <!-- px-2 text-white
+          <a class="navbar-brand" href="/index" class="nav-link active">Статьи</a>
+          <a class="navbar-brand" href="/fav" class="nav-link">Избранное</a>
+          <a class="navbar-brand" href="#" class="nav-link">Источники</a>
+          <a class="navbar-brand" href="#" class="nav-link">О программе</a>
+          </div>
+        </nav>
+      </div> -->
     </header>
 
     <div class="album py-5 bg-light">
@@ -23,33 +41,18 @@
           {% if art %}
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for item in art %}
-            <div class="col">
+            <div id ="{{ item.id }}" class="col">
               <div class="card shadow-sm">
-                <div class="card-body">                  
-                  <small class="text-muted"> {{ item.text_class }} </small>
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">                  
+                    <small class="text-muted"> {{ item.text_class }} </small>
+                    <small class="text-muted"> {{ item.source }} </small>
+                  </div>
                   <p class="card-text"> {{ item.abstr }} </p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" id="{{ item.art_id }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#Modal-{{ item.art_id }}">Читать полностью</button>
-                      <!-- Modal -->
-                      <div class="modal fade" id="Modal-{{ item.art_id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Полная версия</h5>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                            </div>
-                            <div class="modal-body">
-                              {{ item.text }}
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                              <button type="button" class="btn btn-primary">Добавить в избранное</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <button type="button" id="{{ item.art_id }}" class="btn btn-sm btn-outline-secondary fav-{{ item.fav }}" onclick="toggleFav(this)">
+                      <button type="button" id="{{ item.id }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal-window-{{ item.id }}">Читать полностью</button>
+                      <button type="button" id="main-btn-fav-{{ item.id }}" class="btn btn-sm btn-outline-secondary fav-{{ item.fav }}" onclick="toggleFav(this)">
                         {% if item.fav == 0 %}
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
                           <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
@@ -66,6 +69,33 @@
                   </div>
                 </div>
               </div>
+              <!-- Modal -->
+              <div class="modal fade" id="modal-window-{{ item.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">{{ item.text_class }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                      {{ item.text }}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
+                      {% if item.fav == 0 %}
+                      <button type="button" id="modal-btn-fav-{{ item.id }}" class="btn btn-outline-success fav-{{ item.fav }}" onclick="toggleFav(this)">
+                        Добавить в избранное
+                      </button>
+                      {% else %}
+                      <button type="button" id="modal-btn-fav-{{ item.id }}" class="btn btn-outline-danger fav-{{ item.fav }}" onclick="toggleFav(this)">
+                        Убрать из избранного
+                      </button>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Modal -->
             </div>
             {% endfor %}
           </div>
