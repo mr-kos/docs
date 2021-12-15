@@ -7,6 +7,7 @@ import json
 
 recent_filters = []
 recent_link = {}
+filt = {'fav': 0}
 #NEWS API'S key
 # 32a23ae7acf84154bc0c86c45a43c71f
 
@@ -29,23 +30,44 @@ recent_link = {}
 def index():
     global recent_link
     global recent_filters
+    global filt
     recent_filters = []
+    filt = {'fav': 0}
     active_link = {'index': 'active', 'fav': '', 'source': '', 'about': ''}
     recent_link = active_link
-    articles = get_all_articles(fav_mode=False)
+    articles = get_all_articles(filt=filt)
     articles = [article.present() for article in articles]
     return render_template('main.html', art=articles, active_link=active_link)
 
+# FAVOURITE
 @my_app.route('/fav')
 def fav():
     global recent_link
     global recent_filters
+    global filt
     recent_filters = []
+    filt = {'fav': 1}
     active_link = {'index': '', 'fav': 'active', 'source': '', 'about': ''}
     recent_link = active_link
-    articles = get_all_articles(fav_mode=True)
+    articles = get_all_articles(filt=filt)
     articles = [article.present() for article in articles]
     return render_template('main.html', art=articles, active_link=active_link)
+
+@my_app.route('/toggle_fav', methods=['POST'])
+def toggle_fav():
+    art_id = ObjectId(request.form.get('id'))
+    fav = int(request.form.get('fav'))
+    print(update_fav(art_id, fav))
+    return jsonify({'success': True})
+
+# FILTER
+@my_app.route('/show_filter')
+def show_filter():
+    global recent_link
+    global recent_filters
+    articles = get_all_articles(filt=filt, text_classes=recent_filters)
+    articles = [article.present() for article in articles]
+    return render_template('main.html', art=articles, active_link=recent_link)
 
 @my_app.route('/use_filters', methods=['POST'])
 def use_filters():
@@ -62,19 +84,6 @@ def use_filters():
         if value:
             active_filt.append(switches[key])
     recent_filters = active_filt
-    return jsonify({'success': True})
-
-@my_app.route('/show_filter')
-def show_filter():
-    global recent_link
-    global recent_filters
-    articles = get_all_articles(fav_mode=False, text_classes=recent_filters)
-    articles = [article.present() for article in articles]
-    return render_template('main.html', art=articles, active_link=recent_link)
-
-@my_app.route('/toggle_fav', methods=['POST'])
-def toggle_fav():
-    art_id = ObjectId(request.form.get('id'))
-    fav = int(request.form.get('fav'))
-    print(update_fav(art_id, fav))
+    print('recent_filter', recent_filters)
+    print('recent_link', recent_link)
     return jsonify({'success': True})

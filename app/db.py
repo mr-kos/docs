@@ -25,23 +25,18 @@ db_operations = mongo.db.articles
 #     result = {'result' : 'Created successfully'}
 #     return result
 
-def get_all_articles(fav_mode=False, text_classes=[]):
+def get_all_articles(filt, text_classes=[]):
     # fav_mode
     # 0 - only unfavourite
     # 1 - only favourite
     # 2 - all
     if db_operations.count != 0:
         results = []
-        filt = {}
-
-        if not fav_mode:
-            filt['fav'] = 0
-        else:
-            filt['fav'] = 0
-
+        filt = filt
+        
         if len(text_classes) > 0:
             filt['text_class'] = {'$in': text_classes}
-            
+
         results = db_operations.find(filt)
         output = [parse_article(item) for item in results]
         return output
