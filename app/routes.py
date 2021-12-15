@@ -2,8 +2,11 @@ from app import my_app
 from flask import render_template, jsonify, url_for, request
 from .db import update_fav, get_all_articles
 from bson import ObjectId
+import json
 
 
+recent_filters = []
+recent_link = {}
 #NEWS API'S key
 # 32a23ae7acf84154bc0c86c45a43c71f
 
@@ -24,21 +27,54 @@ from bson import ObjectId
 @my_app.route('/')
 @my_app.route('/index')
 def index():
+    global recent_link
+    global recent_filters
+    recent_filters = []
     active_link = {'index': 'active', 'fav': '', 'source': '', 'about': ''}
-    articles = get_all_articles(fav_mode=0)
+    recent_link = active_link
+    articles = get_all_articles(fav_mode=False)
     articles = [article.present() for article in articles]
-    return render_template("main.html", art=articles, active_link=active_link)
+    return render_template('main.html', art=articles, active_link=active_link)
 
 @my_app.route('/fav')
 def fav():
+    global recent_link
+    global recent_filters
+    recent_filters = []
     active_link = {'index': '', 'fav': 'active', 'source': '', 'about': ''}
-    articles = get_all_articles(fav_mode=1)
+    recent_link = active_link
+    articles = get_all_articles(fav_mode=True)
     articles = [article.present() for article in articles]
-    return render_template("main.html", art=articles, active_link=active_link)
+    return render_template('main.html', art=articles, active_link=active_link)
 
-@my_app.route('/toggle_fav', methods=["POST"])
+@my_app.route('/use_filters', methods=['POST'])
+def use_filters():
+    filter = json.loads(request.form.get('filter')) # обрабатываем json
+    active_tab = request.form.get('active_tab')[:-5] # отсекаем "-link" из id ссылки
+    global recent_link
+    global recent_filters
+    active_link = {'index': '', 'fav': '', 'source': '', 'about': ''}
+    active_link[active_tab] = 'active'
+    recent_link = active_link
+    switches = {'switchPolitics': 'политика', 'switchEconomics': 'экономика', 'switchScience': 'наука', 'switchStrategy': 'ВС'}
+    active_filt = []
+    for key, value in filter.items():
+        if value:
+            active_filt.append(switches[key])
+    recent_filters = active_filt
+    return jsonify({'success': True})
+
+@my_app.route('/show_filter')
+def show_filter():
+    global recent_link
+    global recent_filters
+    articles = get_all_articles(fav_mode=False, text_classes=recent_filters)
+    articles = [article.present() for article in articles]
+    return render_template('main.html', art=articles, active_link=recent_link)
+
+@my_app.route('/toggle_fav', methods=['POST'])
 def toggle_fav():
-    art_id = ObjectId(request.form.get("id"))
-    fav = int(request.form.get("fav"))
+    art_id = ObjectId(request.form.get('id'))
+    fav = int(request.form.get('fav'))
     print(update_fav(art_id, fav))
-    return jsonify({"success": True})
+    return jsonify({'success': True})

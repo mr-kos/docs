@@ -57,8 +57,45 @@ function toggleFav(elem){
     return false;
 };
 
+
+function resetFilters(elem){
+    var switches = ['switchPolitics', 'switchEconomics', 'switchScience', 'switchStrategy'];
+    for (item of switches){
+        document.getElementById(item).checked = false;
+    }   
+}
+
+
+function applyFilters(elem){
+    var switches = ['switchPolitics', 'switchEconomics', 'switchScience', 'switchStrategy'];
+    var filter = {};
+    for (item of switches){
+        filter[item] = document.getElementById(item).checked;
+    }
+    var activeTab = document.querySelectorAll('a.active')[0].id;
+    request = new XMLHttpRequest();
+    request.open('POST', '/use_filters');
+    request.onload = () => {
+        const data = JSON.parse(request.responseText);
+        if (data.success) {
+            console.log('Success!');
+        }
+        else {
+            console.log('There was an error.');
+        }
+    }
+    const data = new FormData();
+    console.log(filter);
+    data.append('filter', JSON.stringify(filter));
+    data.append('active_tab', activeTab);
+
+    request.send(data);
+    return false;
+
+}
+
 window.onload = function() {
 
-    console.log('Script loaded!')
+    console.log('Script loaded!');
     
 };

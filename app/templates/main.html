@@ -36,24 +36,24 @@
         <div class="switches">
           <p>Категории</p>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics" onclick="applyFilters(this)">
             <label class="form-check-label" for="switchPolitics">Политика</label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics" onclick="applyFilters(this)">
             <label class="form-check-label" for="switchEconomics">Экономика</label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchScience">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchScience" onclick="applyFilters(this)">
             <label class="form-check-label" for="switchScience">Наука</label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy" onclick="applyFilters(this)">
             <label class="form-check-label" for="switchStrategy">ВС</label>
           </div>
           <div class="my-3">
-            <button type="button" class="btn btn-outline-success btn-sm">Применить</button>
-            <button type="button" class="btn btn-outline-dark btn-sm">Сбросить</button>
+            <a href="/show_filter"><button type="button" class="btn btn-outline-success btn-sm">Применить</button></a>
+            <button type="button" class="btn btn-outline-dark btn-sm" onclick="resetFilters(this)">Сбросить</button>
           </div>
         </div>
       </div>
