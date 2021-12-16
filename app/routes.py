@@ -6,8 +6,9 @@ import json
 
 
 recent_filters = []
-recent_link = {}
+recent_link = {'index': 'active', 'fav': '', 'source': '', 'about': ''}
 filt = {'fav': 0}
+switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
 #NEWS API'S key
 # 32a23ae7acf84154bc0c86c45a43c71f
 
@@ -31,13 +32,17 @@ def index():
     global recent_link
     global recent_filters
     global filt
+    global switches_state
+
     recent_filters = []
     filt = {'fav': 0}
     active_link = {'index': 'active', 'fav': '', 'source': '', 'about': ''}
+    switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
     recent_link = active_link
+
     articles = get_all_articles(filt=filt)
     articles = [article.present() for article in articles]
-    return render_template('main.html', art=articles, active_link=active_link)
+    return render_template('main.html', art=articles, active_link=active_link, switches_state=switches_state)
 
 # FAVOURITE
 @my_app.route('/fav')
@@ -45,13 +50,17 @@ def fav():
     global recent_link
     global recent_filters
     global filt
+    global switches_state
+
     recent_filters = []
     filt = {'fav': 1}
     active_link = {'index': '', 'fav': 'active', 'source': '', 'about': ''}
+    switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
     recent_link = active_link
+
     articles = get_all_articles(filt=filt)
     articles = [article.present() for article in articles]
-    return render_template('main.html', art=articles, active_link=active_link)
+    return render_template('main.html', art=articles, active_link=active_link, switches_state=switches_state)
 
 @my_app.route('/toggle_fav', methods=['POST'])
 def toggle_fav():
@@ -63,11 +72,9 @@ def toggle_fav():
 # FILTER
 @my_app.route('/show_filter')
 def show_filter():
-    global recent_link
-    global recent_filters
     articles = get_all_articles(filt=filt, text_classes=recent_filters)
     articles = [article.present() for article in articles]
-    return render_template('main.html', art=articles, active_link=recent_link)
+    return render_template('main.html', art=articles, active_link=recent_link, switches_state=switches_state)
 
 @my_app.route('/use_filters', methods=['POST'])
 def use_filters():
@@ -75,6 +82,7 @@ def use_filters():
     active_tab = request.form.get('active_tab')[:-5] # отсекаем "-link" из id ссылки
     global recent_link
     global recent_filters
+    global switches_state
     active_link = {'index': '', 'fav': '', 'source': '', 'about': ''}
     active_link[active_tab] = 'active'
     recent_link = active_link
@@ -83,7 +91,10 @@ def use_filters():
     for key, value in filter.items():
         if value:
             active_filt.append(switches[key])
+            switches_state[key] = 'checked' # for switches state in layout
+        else:
+            switches_state[key] = ''
+
     recent_filters = active_filt
-    print('recent_filter', recent_filters)
-    print('recent_link', recent_link)
+
     return jsonify({'success': True})

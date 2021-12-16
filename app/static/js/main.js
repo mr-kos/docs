@@ -62,7 +62,8 @@ function resetFilters(elem){
     var switches = ['switchPolitics', 'switchEconomics', 'switchScience', 'switchStrategy'];
     for (item of switches){
         document.getElementById(item).checked = false;
-    }   
+    }
+    applyFilters(elem);
 }
 
 

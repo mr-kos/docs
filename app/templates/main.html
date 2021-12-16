@@ -36,19 +36,19 @@
         <div class="switches">
           <p>Категории</p>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics" onclick="applyFilters(this)">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics" onclick="applyFilters(this)" {{ switches_state.switchPolitics }}>
             <label class="form-check-label" for="switchPolitics">Политика</label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics" onclick="applyFilters(this)">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics" onclick="applyFilters(this)" {{ switches_state.switchEconomics }}>
             <label class="form-check-label" for="switchEconomics">Экономика</label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchScience" onclick="applyFilters(this)">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchScience" onclick="applyFilters(this)" {{ switches_state.switchScience }}>
             <label class="form-check-label" for="switchScience">Наука</label>
           </div>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy" onclick="applyFilters(this)">
+            <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy" onclick="applyFilters(this)" {{ switches_state.switchStrategy }}>
             <label class="form-check-label" for="switchStrategy">ВС</label>
           </div>
           <div class="my-3">

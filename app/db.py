@@ -1,6 +1,7 @@
 from app import my_app
 from .article import Article
 from flask_pymongo import PyMongo
+from copy import deepcopy
 
 
 my_app.config["MONGO_URI"] = "mongodb://localhost:27017/docs"
@@ -32,12 +33,12 @@ def get_all_articles(filt, text_classes=[]):
     # 2 - all
     if db_operations.count != 0:
         results = []
-        filt = filt
+        filter = deepcopy(filt)
         
         if len(text_classes) > 0:
-            filt['text_class'] = {'$in': text_classes}
+            filter['text_class'] = {'$in': text_classes}
 
-        results = db_operations.find(filt)
+        results = db_operations.find(filter)
         output = [parse_article(item) for item in results]
         return output
     else:
