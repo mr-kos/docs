@@ -3,7 +3,6 @@ from .article import Article
 from flask_pymongo import PyMongo
 from copy import deepcopy
 
-
 my_app.config["MONGO_URI"] = "mongodb://localhost:27017/docs"
 mongo = PyMongo(my_app)
 db_operations = mongo.db.articles

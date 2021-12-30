@@ -98,3 +98,21 @@ def use_filters():
     recent_filters = active_filt
 
     return jsonify({'success': True})
+
+
+#SOURCE
+@my_app.route('/source')
+def source():
+    switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
+    active_link = {'index': '', 'fav': '', 'source': 'active', 'about': ''}
+    recent_link = active_link
+    return render_template('main.html', art=[], active_link=recent_link, switches_state=switches_state)
+
+
+#ABOUT
+@my_app.route('/about')
+def about():
+    switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
+    active_link = {'index': '', 'fav': '', 'source': '', 'about': 'active'}
+    recent_link = active_link
+    return render_template('main.html', art=[], active_link=recent_link, switches_state=switches_state)

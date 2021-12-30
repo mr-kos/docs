@@ -17,15 +17,16 @@
               <a id="fav-link" class="nav-link rounded-top {{active_link.fav}}" href="/fav">Избранное</a>
             </li>
             <li class="nav-item">
-              <a id="source-link" class="nav-link rounded-top" href="#">Источники</a>
+              <a id="source-link" class="nav-link rounded-top {{active_link.source}}" href="/source">Источники</a>
             </li>
             <li class="nav-item">
-              <a id="about-link" class="nav-link rounded-top" href="#">О программе</a>
+              <a id="about-link" class="nav-link rounded-top {{active_link.about}}" href="/about">О программе</a>
             </li>
           </ul>
         </div>
       </div>
     </header>
+    {% if art %}
     <!-- Filters -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFilt" aria-labelledby="offcanvasLabel">
       <div class="offcanvas-header">
@@ -69,7 +70,6 @@
               <button type="button" class="btn btn-outline-dark filt-btn">Сбросить фильтры</button>
             </div>
           </div>
-          {% if art %}
           <div class="row">
             {% for item in art %}
             <div id ="{{ item.id }}" class="col">
