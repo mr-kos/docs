@@ -1,8 +1,8 @@
 from app import my_app
-from flask import render_template, jsonify, url_for, request
+from flask import render_template, jsonify, request
 from .db import update_fav, get_all_articles
 from bson import ObjectId
-import json
+import json, requests
 
 
 recent_filters = []
@@ -99,6 +99,7 @@ def use_filters():
 
     return jsonify({'success': True})
 
+#News API key 32a23ae7acf84154bc0c86c45a43c71f
 
 #SOURCE
 @my_app.route('/source')
@@ -106,7 +107,22 @@ def source():
     switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
     active_link = {'index': '', 'fav': '', 'source': 'active', 'about': ''}
     recent_link = active_link
-    return render_template('main.html', art=[], active_link=recent_link, switches_state=switches_state)
+    return render_template('source.html', art=[], active_link=recent_link, switches_state=switches_state)
+
+# FILTER
+@my_app.route('/show_source_articles')
+def show_source_articles():
+    url = ('https://newsapi.org/v2/top-headlines?'
+       'language=en&'
+       'category=general&'
+       'from=2022-01-21&'
+       'sortBy=popularity&'
+       'apiKey=32a23ae7acf84154bc0c86c45a43c71f')
+
+    response = requests.get(url)
+    print(response.json())
+
+    return "OK"
 
 
 #ABOUT

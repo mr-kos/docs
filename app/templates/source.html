@@ -1,0 +1,86 @@
+{% extends "layouts.html" %}
+
+{% block content %}
+<!-- Internet -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFilt" aria-labelledby="offcanvasLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasLabel">Интернет</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="btn-group-vertical" style="width: 100%;" role="group">
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+            <label class="btn btn-outline-dark btn-sm" for="btnradio1">News API</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+            <label class="btn btn-outline-dark btn-sm" for="btnradio2">HotNews API</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+            <label class="btn btn-outline-dark btn-sm" for="btnradio3">RareNews API</label>
+        </div>
+      <div class="switches py-4">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics" onclick="applyFilters(this)" {{ switches_state.switchPolitics }}>
+          <label class="form-check-label" for="switchPolitics">Политика</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics" onclick="applyFilters(this)" {{ switches_state.switchEconomics }}>
+          <label class="form-check-label" for="switchEconomics">Экономика</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchScience" onclick="applyFilters(this)" {{ switches_state.switchScience }}>
+          <label class="form-check-label" for="switchScience">Наука</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy" onclick="applyFilters(this)" {{ switches_state.switchStrategy }}>
+          <label class="form-check-label" for="switchStrategy">ВС</label>
+        </div>
+        <div class="my-3">
+          <a href=""><button type="button" class="btn btn-outline-success btn-sm">Применить</button></a>
+          <button type="button" class="btn btn-outline-dark btn-sm" onclick="resetFilters(this)">Сбросить фильтры</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Internet -->
+<div class="container py-2">
+    <div class="row row-cols-6 py-2 justify-content-center">
+        <div class="col">
+            <button type="button" class="btn btn-outline-dark filt-btn" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilt" aria-controls="offcanvasExample">Интернет</button>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-outline-dark filt-btn" disabled>Документы</button>
+        </div>
+    </div>
+    <div class="row py-2">
+      <div class="col-md-4">
+        <h2>Заголовок</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce 
+dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
+fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
+mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-secondary" href="#" role="button">Полностью »</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>Заголовок</h2>
+        <p>Donec id elit non mi porta gravida at eget metus. Fusce 
+dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
+fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
+mollis euismod. Donec sed odio dui. </p>
+        <p><a class="btn btn-secondary" href="#" role="button">Полностью »</a></p>
+      </div>
+      <div class="col-md-4">
+        <h2>Заголовок</h2>
+        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
+ egestas eget quam. Vestibulum id ligula porta felis euismod semper. 
+Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+ ut fermentum massa justo sit amet risus.</p>
+        <p><a class="btn btn-secondary" href="#" role="button">Полностью »</a></p>
+      </div>
+    </div>
+
+    <hr>
+
+  </div> <!-- /container -->
+
+{% endblock %}

@@ -15,6 +15,31 @@
       
 </head>
 <body class="bg-light">
+    <header class="d-flex sticky-top justify-content-between align-items-stretch align-content-stretch bg-dark">
+        <!-- <div class="container"> -->
+        <!-- <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> -->
+          <!-- <div class="text-start">
+              <strong> DOCS </strong>
+          </div> -->
+        <div class="container">
+          <div class="row">
+            <ul class="nav nav-justified justify-content-center">
+              <li class="nav-item">
+                <a id="index-link" class="nav-link rounded-top {{active_link.index}}" href="/index">Статьи</a>
+              </li>
+              <li class="nav-item">
+                <a id="fav-link" class="nav-link rounded-top {{active_link.fav}}" href="/fav">Избранное</a>
+              </li>
+              <li class="nav-item">
+                <a id="source-link" class="nav-link rounded-top {{active_link.source}}" href="/source">Источники</a>
+              </li>
+              <li class="nav-item">
+                <a id="about-link" class="nav-link rounded-top {{active_link.about}}" href="/about">О программе</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
     {% block content %}{% endblock %}
 </body>
     

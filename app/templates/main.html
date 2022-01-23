@@ -1,31 +1,7 @@
 {% extends "layouts.html" %}
 
 {% block content %}
-    <header class="d-flex sticky-top justify-content-between align-items-stretch align-content-stretch bg-dark">
-      <!-- <div class="container"> -->
-      <!-- <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"> -->
-        <!-- <div class="text-start">
-            <strong> DOCS </strong>
-        </div> -->
-      <div class="container">
-        <div class="row">
-          <ul class="nav nav-justified justify-content-center">
-            <li class="nav-item">
-              <a id="index-link" class="nav-link rounded-top {{active_link.index}}" href="/index">Статьи</a>
-            </li>
-            <li class="nav-item">
-              <a id="fav-link" class="nav-link rounded-top {{active_link.fav}}" href="/fav">Избранное</a>
-            </li>
-            <li class="nav-item">
-              <a id="source-link" class="nav-link rounded-top {{active_link.source}}" href="/source">Источники</a>
-            </li>
-            <li class="nav-item">
-              <a id="about-link" class="nav-link rounded-top {{active_link.about}}" href="/about">О программе</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
+    
     {% if art %}
     <!-- Filters -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasFilt" aria-labelledby="offcanvasLabel">
@@ -59,7 +35,7 @@
         </div>
       </div>
     </div>
-    <!-- Filters -->
+    <!-- /Filters -->
     <div class="album py-2 bg-light">
         <div class="container">
           <div class="row row-cols-6 py-2 justify-content-center">
