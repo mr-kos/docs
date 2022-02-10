@@ -1,16 +1,16 @@
 from app import my_app
 from flask import render_template, jsonify, request
 from .db import update_fav, get_all_articles
+from newsapi import NewsApiClient
 from bson import ObjectId
-import json, requests
+import json
 
 
 recent_filters = []
 recent_link = {'index': 'active', 'fav': '', 'source': '', 'about': ''}
 filt = {'fav': 0}
 switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
-#NEWS API'S key
-# 32a23ae7acf84154bc0c86c45a43c71f
+newsapi = NewsApiClient(api_key='32a23ae7acf84154bc0c86c45a43c71f')
 
 
 # @my_app.route('/create')
@@ -104,31 +104,38 @@ def use_filters():
 #SOURCE
 @my_app.route('/source')
 def source():
-    switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
     active_link = {'index': '', 'fav': '', 'source': 'active', 'about': ''}
     recent_link = active_link
-    return render_template('source.html', art=[], active_link=recent_link, switches_state=switches_state)
+    return render_template('source.html', active_link=recent_link)
 
 # FILTER
 @my_app.route('/show_source_articles')
 def show_source_articles():
-    url = ('https://newsapi.org/v2/top-headlines?'
-       'language=en&'
-       'category=general&'
-       'from=2022-01-21&'
-       'sortBy=popularity&'
-       'apiKey=32a23ae7acf84154bc0c86c45a43c71f')
+    active_link = {'index': '', 'fav': '', 'source': 'active', 'about': ''}
+    recent_link = active_link
 
-    response = requests.get(url)
-    print(response.json())
+# sources: USA - bbc-news, cnn, the-wall-street-journal, bloomberg, fox-news.
+#         UK - independent, financial-times
+#         Other - al-jazeera-english
 
-    return "OK"
+    sources = ['cnn', 'bbc-news', 'fox-news', 'bloomberg', 'the-wall-street-journal', 'al-jazeera-english']
+    source_names = {'cnn': 'CNN', 'bbc-news': 'BBC News', 'fox-news': 'Fox News', 'bloomberg': 'Bloomberg', 'the-wall-street-journal': 'The Wall Street Journal', 'independent': 'Independent', 'financial-times': 'Financial Times', 'al-jazeera-english': 'Al Jazeera'}
+    raw_data = []
+    data = []
+    total_articles = 0
+    for source in sources:
+        req = newsapi.get_everything(sources=source,from_param='2022-02-08', to='2022-02-09', language='en', sort_by='publishedAt', page_size=100)
+        raw_data.append({'source': source, 'data': req})
+        total_articles += req['totalResults']
+        data.append({'source': source_names[source], 'total': req['totalResults']})
+    # with open('newsapi-data.json', 'w') as fp:
+    #     json.dump(raw_data, fp)
+    return render_template('source.html', total_articles=total_articles, data = data, active_link=recent_link)
 
 
 #ABOUT
 @my_app.route('/about')
 def about():
-    switches_state = {'switchPolitics': '', 'switchEconomics': '', 'switchScience': '', 'switchStrategy': ''}
     active_link = {'index': '', 'fav': '', 'source': '', 'about': 'active'}
     recent_link = active_link
-    return render_template('main.html', art=[], active_link=recent_link, switches_state=switches_state)
+    return render_template('main.html', active_link=recent_link)

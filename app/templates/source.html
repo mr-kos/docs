@@ -20,23 +20,23 @@
         </div>
       <div class="switches py-4">
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics" onclick="applyFilters(this)" {{ switches_state.switchPolitics }}>
-          <label class="form-check-label" for="switchPolitics">Политика</label>
+          <input class="form-check-input" type="checkbox" role="switch" id="switchPolitics" onclick="applyFilters(this)">
+          <label class="form-check-label" for="switchPolitics">BBC</label>
         </div>
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics" onclick="applyFilters(this)" {{ switches_state.switchEconomics }}>
-          <label class="form-check-label" for="switchEconomics">Экономика</label>
+          <input class="form-check-input" type="checkbox" role="switch" id="switchEconomics" onclick="applyFilters(this)">
+          <label class="form-check-label" for="switchEconomics">CNN</label>
         </div>
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="switchScience" onclick="applyFilters(this)" {{ switches_state.switchScience }}>
-          <label class="form-check-label" for="switchScience">Наука</label>
+          <input class="form-check-input" type="checkbox" role="switch" id="switchScience" onclick="applyFilters(this)">
+          <label class="form-check-label" for="switchScience">Bloomberg</label>
         </div>
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy" onclick="applyFilters(this)" {{ switches_state.switchStrategy }}>
-          <label class="form-check-label" for="switchStrategy">ВС</label>
+          <input class="form-check-input" type="checkbox" role="switch" id="switchStrategy" onclick="applyFilters(this)">
+          <label class="form-check-label" for="switchStrategy">The Wall Street Journal</label>
         </div>
         <div class="my-3">
-          <a href=""><button type="button" class="btn btn-outline-success btn-sm">Применить</button></a>
+          <a href="/show_source_articles"><button type="button" class="btn btn-outline-success btn-sm">Применить</button></a>
           <button type="button" class="btn btn-outline-dark btn-sm" onclick="resetFilters(this)">Сбросить фильтры</button>
         </div>
       </div>
@@ -52,35 +52,25 @@
             <button type="button" class="btn btn-outline-dark filt-btn" disabled>Документы</button>
         </div>
     </div>
-    <div class="row py-2">
-      <div class="col-md-4">
-        <h2>Заголовок</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce 
-dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
-fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">Полностью »</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Заголовок</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce 
-dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut 
-fermentum massa justo sit amet risus. Etiam porta sem malesuada magna 
-mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">Полностью »</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Заголовок</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in,
- egestas eget quam. Vestibulum id ligula porta felis euismod semper. 
-Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
- ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">Полностью »</a></p>
+    <hr>
+    <div class="p-5 mb-4 text-white bg-dark rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Полученные документы</h1>
+        <p class="col-md-8 fs-4">{% if total_articles %} {{total_articles}} {% else %} 0 {% endif %} документов готовы к обработке</p>
+        <button class="btn btn-outline-light btn-lg" type="button">Начать</button>
       </div>
     </div>
-
-    <hr>
-
+    <div class="row py-2">
+    {% for item in data%}
+      <div class="col-md-4 py-2">
+        <div class="h-100 p-5 bg-light border rounded-3">
+          <h2>{{item.source}}</h2>
+          <p>Всего статей: {{item.total}}</p>
+          <button class="btn btn-outline-secondary" type="button">Исключить</button>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
   </div> <!-- /container -->
 
 {% endblock %}
